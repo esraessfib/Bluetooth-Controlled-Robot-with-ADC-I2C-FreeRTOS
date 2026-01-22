@@ -411,7 +411,7 @@ void TASK_RECEIVE_COMMAND(void *arg)
     {
         xQueueReceive(QUEUE_REC_CMD, cmd, portMAX_DELAY);
 
-        // ?? LIGNE À AJOUTER (TRÈS IMPORTANTE)
+       
         cmd[strcspn(cmd, "\r\n")] = 0;
 
         if(strcmp(cmd,"STOP") == 0)
