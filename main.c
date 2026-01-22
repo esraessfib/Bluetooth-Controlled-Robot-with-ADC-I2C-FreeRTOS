@@ -157,7 +157,7 @@ void I2C_COMMAND(int command)
     while(I2C1->CR1 & I2C_CR1_STOP);
 }
 /**
-  *   Démarrage de la conversion DS1621
+  *   DÃ©marrage de la conversion DS1621
   */
 
 void Start_DS1621_Conv(void) 
@@ -194,8 +194,8 @@ void DS1621_Init(void)
 }
 
 /*
-  *  Lecture de la température du DS1621
-  *  Température en °C
+  *  Lecture de la tempÃ©rature du DS1621
+  *  TempÃ©rature en Â°C
  */
 float I2C_ReadTemperature(void) 
 {
@@ -254,7 +254,7 @@ void Motor_Set(RobotCmd_t cmd, uint32_t speed)
             break;
 
         case CMD_BACKWARD: // RECULE ? 2 moteurs ensemble
-            GPIOD->ODR |= (1<<1)|(1<<3); // Moteur gauche arrière + droit arrière
+            GPIOD->ODR |= (1<<1)|(1<<3); // Moteur gauche arriÃ¨re + droit arriÃ¨re
             TIM4->CCR2 = TIM4->CCR4 = 500; // PWM vitesse
             TIM4->CCR1 = TIM4->CCR3 = 0;
             break;
@@ -271,7 +271,7 @@ void Motor_Set(RobotCmd_t cmd, uint32_t speed)
             TIM4->CCR2 = TIM4->CCR3 = TIM4->CCR4 = 0;
             break;
 
-        case CMD_STOP:     // STOP ? tout s’arrête
+        case CMD_STOP:     // STOP ? tout sâ€™arrÃªte
             TIM4->CCR1 = TIM4->CCR2 = TIM4->CCR3 = TIM4->CCR4 = 0;
             break;
     }
@@ -292,22 +292,6 @@ void TIM2_Init(void)
     TIM2->CR1 |= TIM_CR1_CEN;
 }
 
-/*void ADC1_Init(void)
-{
-    RCC->APB2ENR |= RCC_APB2ENR_ADC1EN;
-    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
-
-    GPIOA->MODER |= (3<<8)|(3<<10)|(3<<12);
-
-    ADC1->CR1 |= ADC_CR1_SCAN | ADC_CR1_EOCIE;
-    ADC1->CR2 |= ADC_CR2_EXTEN_0 | (6<<24);
-    ADC1->SMPR2 = 0;
-    ADC1->SQR3 = 4;
-    ADC1->CR2 |= ADC_CR2_ADON;
-
-    NVIC_EnableIRQ(ADC_IRQn);
-}
-*/
 void ADC1_Init(void)
 {
     RCC->APB2ENR |= RCC_APB2ENR_ADC1EN;
@@ -419,23 +403,6 @@ void vTask_Send_To_Smartphone(void *arg)
 //////////////////////////////////////
 
 
-
-
-/*
-void TASK_RECEIVE_COMMAND(void *p)
-{
-    char cmd[RX_BUFFER_SIZE];
-    while(1){
-        xQueueReceive(QUEUE_REC_CMD,cmd,portMAX_DELAY);
-        if(!strcmp(cmd,"STOP")) xSemaphoreGive(SEM_STOP);
-        else if(!strcmp(cmd,"AVANCE")) Motor_Set(CMD_FORWARD,800);
-        else if(!strcmp(cmd,"RECULE")) Motor_Set(CMD_BACKWARD,800);
-        else if(!strcmp(cmd,"GAUCHE")) Motor_Set(CMD_LEFT,800);
-        else if(!strcmp(cmd,"DROITE")) Motor_Set(CMD_RIGHT,800);
-    }
-}
-*/
-
 void TASK_RECEIVE_COMMAND(void *arg)
 {
     char cmd[RX_BUFFER_SIZE];
@@ -444,7 +411,7 @@ void TASK_RECEIVE_COMMAND(void *arg)
     {
         xQueueReceive(QUEUE_REC_CMD, cmd, portMAX_DELAY);
 
-        // ?? LIGNE À AJOUTER (TRÈS IMPORTANTE)
+        // ?? LIGNE Ã€ AJOUTER (TRÃˆS IMPORTANTE)
         cmd[strcspn(cmd, "\r\n")] = 0;
 
         if(strcmp(cmd,"STOP") == 0)
